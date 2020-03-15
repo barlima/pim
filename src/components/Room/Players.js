@@ -1,6 +1,10 @@
 import React from 'react';
 
 const Players = ({ players }) => {
+  if (!players) {
+    return null;;
+  }
+
   return (
     <div>
       Players:

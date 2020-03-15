@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import get from 'lodash/get';
+import io from 'socket.io-client';
 
 import Navigation from '../Navigation';
 import { addPlayerToRoom } from './helpers/room';
@@ -26,7 +27,13 @@ const JoinRoom = ({ match, history }) => {
       return;
     }
 
-    history.push(`/room/${room}`);
+    registerNewPlayer(player);
+    history.push(`/room/${room}/play`);
+  }
+
+  const registerNewPlayer = (player) => {
+    const socket = io(process.env.REACT_APP_API_URL);
+    socket.emit('registerNewPlayer', player);
   }
 
   return (

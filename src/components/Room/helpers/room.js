@@ -36,6 +36,28 @@ export const addPlayerToRoom = async (name, room) => {
   return player;
 }
 
+export const startRoom = async (room, rounds, duration) => {
+  let res;
+  const data = {
+    rounds,
+    roundDuration: duration
+  }
+
+  try {
+    res = await fetch(`${API_URL}/rooms/${room}/start`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch (error) {
+    console.error(error);
+    return;
+  }
+
+  const updated = await res.json();
+  return updated;
+}
+
 const LOCAL_STORAGE_KEY = 'pim_player';
 
 export const setPlayer = (player) => {
@@ -43,5 +65,5 @@ export const setPlayer = (player) => {
 }
 
 export const getPlayer = () => {
-  window.localStorage.getItem(LOCAL_STORAGE_KEY);
+  return window.localStorage.getItem(LOCAL_STORAGE_KEY);
 }
